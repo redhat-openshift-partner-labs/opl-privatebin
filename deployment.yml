@@ -1,0 +1,26 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: opl-privatebin
+  namespace: public
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: opl-privatebin
+  template:
+    metadata:
+      labels:
+        app: opl-privatebin
+    spec:
+      containers:
+        - name: opl-privatebin
+          image: quay.io/opdev/opl-privatebin@sha256:8597f977de871d623a431698f6dd7c426c001335b1f2feca04c457898bd4d802
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          imagePullPolicy: IfNotPresent
+      serviceAccountName: rhecoeng
+      serviceAccount: rhecoeng
+      securityContext:
+        runAsUser: 65534
